@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IrsanAI LRP v1.3 — Professional Landing</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #131a31;
+      --accent: #6d7dff;
+      --accent2: #8f5bff;
+      --text: #eaf0ff;
+      --muted: #b2bddb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, system-ui, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 20%, #1e2b66 0%, var(--bg) 40%), var(--bg);
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
+    .hero { padding: 56px 0 28px; }
+    h1 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.05; margin: 0 0 16px; }
+    p { color: var(--muted); line-height: 1.6; }
+    .pill { display: inline-block; padding: 6px 12px; border-radius: 999px; background: #27305a; font-size: 12px; }
+    .cta { margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      text-decoration: none; color: #fff; font-weight: 600;
+      padding: 12px 18px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+    .btn.secondary { background: #243055; color: #dbe4ff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 14px; margin-top: 26px; }
+    .card { background: rgba(19,26,49,.9); border: 1px solid #2d3b73; border-radius: 14px; padding: 16px; }
+    .card h3 { margin: 0 0 8px; font-size: 1rem; }
+    .section { margin-top: 30px; }
+    .kpi { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 12px; }
+    .kpi .card strong { font-size: 1.35rem; display: block; }
+    footer { margin-top: 36px; color: #90a1d8; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="pill">IrsanAI • LRP v1.3</span>
+    <section class="hero">
+      <h1>From Prompting to<br>Protocol Thinking.</h1>
+      <p>
+        IrsanAI-LRP ist ein Meta-Protokoll-Operator für professionelle LLM-Workflows.
+        Statt nur Prompts zu erzeugen, strukturiert es Analyse, Entscheidungslogik,
+        Kompatibilität und robustes Fallback in einem reproduzierbaren Ablauf.
+      </p>
+      <div class="cta">
+        <a class="btn" href="../index.html">LRP Web-App öffnen</a>
+        <a class="btn secondary" href="../docs/professionalization-roadmap.md">Roadmap ansehen</a>
+        <a class="btn secondary" href="../docs/lrp-html-audit.md">HTML-Audit lesen</a>
+      </div>
+    </section>
+
+    <section class="section grid">
+      <article class="card"><h3>Intent Intelligence</h3><p>Confidence-Scoring und Pfadentscheidung schaffen Klarheit vor der eigentlichen LLM-Ausführung.</p></article>
+      <article class="card"><h3>Operational Reliability</h3><p>Emergency-Fallback und strukturierte Protokollausgabe reduzieren Ausführungsrisiken.</p></article>
+      <article class="card"><h3>Business-Ready</h3><p>Dokumentations-, Migrations- und Governance-Fundament für professionellen Betrieb.</p></article>
+    </section>
+
+    <section class="section kpi">
+      <div class="card"><strong>v1.3</strong><span>Aktuelle Protokollversion</span></div>
+      <div class="card"><strong>Client-Only</strong><span>Kein Backend erforderlich</span></div>
+      <div class="card"><strong>Fast Onboarding</strong><span>Sofort lokal startbar</span></div>
+    </section>
+
+    <footer>Designed for modern AI builders — inspired by IrsanAI LRP thinking.</footer>
+  </div>
+</body>
+</html>
