@@ -39,6 +39,7 @@ IrsanAI-LRP v1.3 geht über klassische Prompt-Generatoren hinaus:
 - [Professional GitHub Pages Landing (Entwurf)](website/index.html)
 - [Professionalization Roadmap](docs/professionalization-roadmap.md)
 - [Migration Guide](MIGRATION.md)
+- [Progress-to-Target (Ist/Soll Gap-Analyse)](docs/progress-to-fazit.md)
 
 ## Repositories & Links
 - **Legacy Demo / Legacy Account:**
