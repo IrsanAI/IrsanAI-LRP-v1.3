@@ -12,6 +12,7 @@ IrsanAI-LRP v1.3 geht über klassische Prompt-Generatoren hinaus:
 - **Entscheidungslogik für Ausführungswege** (direkt vs. OS/HW-bewusst)
 - **Fallback- und Kompatibilitätsmechaniken** für robuste Nutzung
 - **Token-orientierte Strukturierung** für produktive LLM-Sessions
+- **Mehrsprachige Landingpage** (EN, DE, BS, ES, TR, IT, FR, ZH) für internationales Onboarding
 
 ## Projektstatus
 - ✅ Produktiv nutzbar (Single-File HTML App)
