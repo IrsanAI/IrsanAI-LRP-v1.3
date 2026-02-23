@@ -45,7 +45,7 @@ IrsanAI-LRP v1.3 geht über klassische Prompt-Generatoren hinaus:
 
 ## Repositories & Links
 - **LIVE USE:**
-  - [https://irsanai.github.io/LRP-v1.3/](Live_Use)
+  - [Try Live:](https://irsanai.github.io/LRP-v1.3/)
 - **Aktuelles Ziel-Repository:**
   - https://github.com/IrsanAI/LRP-v1.3
 
