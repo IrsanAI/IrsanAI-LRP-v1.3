@@ -1,5 +1,8 @@
 # IrsanAI-LRP v1.3 🚀
 
+> 🌍 **Read this README in your language:**
+> [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
+
 > **Revolutionäres Meta-Protokoll für robustes Prompt Engineering.**
 > Ein client-seitiges System zur strukturierten Generierung hochwertiger LRP-Protokolle für LLM-Workflows in Produkt-, Code- und Strategieprojekten.
 
@@ -13,6 +16,15 @@ IrsanAI-LRP v1.3 geht über klassische Prompt-Generatoren hinaus:
 - **Fallback- und Kompatibilitätsmechaniken** für robuste Nutzung
 - **Token-orientierte Strukturierung** für produktive LLM-Sessions
 - **Mehrsprachige Landingpage** (EN, DE, BS, ES, TR, IT, FR, ZH) für internationales Onboarding
+
+## LRP-Kernprinzip (v1.3)
+LRP trennt Eingaben bewusst in vier Ebenen, damit LLMs robuster und reproduzierbarer arbeiten:
+1. **Context Layer** – stabile Fakten, Rolle, Rahmenbedingungen
+2. **Task Layer** – eindeutiges Ziel in einem Satz
+3. **Constraint Layer** – harte/weiche Vorgaben
+4. **Output Format** – gewünschte Struktur (z. B. JSON, Markdown, Tabelle)
+
+**Resonance Check (neu betont):** Vor der Ausführung muss das Modell Kontext + Ziel + Constraints kurz spiegeln (Echo), nur bei Unklarheit nachfragen und danach erst ausführen.
 
 ## Projektstatus
 - ✅ Produktiv nutzbar (Single-File HTML App)
@@ -42,6 +54,7 @@ IrsanAI-LRP v1.3 geht über klassische Prompt-Generatoren hinaus:
 - [Progress-to-Target (Ist/Soll Gap-Analyse)](docs/progress-to-fazit.md)
 - [WEG 1/WEG 2 + Probability-Modell für nächste Schritte](docs/weg1-weg2-probability-next-steps.md)
 - [Repo Validation Report (Konsistenzcheck)](docs/repo-validation-report.md)
+- [Mehrsprachige README-Dateien (EN/ES/IT/BS/RU/ZH/FR/PT-BR/HI/JA/TR)](README.en.md)
 
 ## Repositories & Links
 - **LIVE USE:**
