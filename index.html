@@ -1,640 +1,337 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IrsanAI-LRP v1.3 - Meta-Prompt Generator</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IrsanAI-LRP v1.3</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(20, 28, 52, 0.72);
+      --panel-strong: #111a33;
+      --text: #eaf0ff;
+      --muted: #99a8d4;
+      --primary: #7f8cff;
+      --primary-2: #31d1ff;
+      --success: #2ecc71;
+      --warn: #f6c244;
+      --danger: #ff6b7d;
+      --border: rgba(127, 140, 255, 0.25);
+      --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    }
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+    body {
+      font-family: Inter, Segoe UI, system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(49, 209, 255, 0.25), transparent 38%),
+        radial-gradient(circle at 85% 10%, rgba(127, 140, 255, 0.28), transparent 40%),
+        linear-gradient(155deg, #070b17 0%, #0b1020 55%, #11162a 100%);
+      padding: 28px;
+    }
 
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-            animation: fadeIn 0.8s ease-out;
-        }
+    .container { max-width: 1360px; margin: 0 auto; }
+    .hero {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: linear-gradient(160deg, rgba(17, 26, 51, 0.9), rgba(13, 21, 42, 0.88));
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
 
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+    .hero-top { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+    h1 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin-bottom: 8px; }
+    .subtitle { color: var(--muted); line-height: 1.5; max-width: 860px; }
 
-        .version-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            backdrop-filter: blur(10px);
-        }
+    .pill-row { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill { border: 1px solid var(--border); color: #d9e2ff; padding: 6px 12px; border-radius: 999px; font-size: 0.86rem; background: rgba(127, 140, 255, 0.12); }
 
-        .stats-bar {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
+    .lang-control {
+      display: grid;
+      gap: 8px;
+      min-width: 255px;
+      background: rgba(127,140,255,0.08);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
 
-        .stat {
-            background: rgba(255,255,255,0.15);
-            padding: 8px 16px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            font-size: 0.85em;
-        }
+    .lang-control label { font-size: 0.85rem; color: var(--muted); }
 
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
+    select, textarea, input[type="range"] {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(8, 13, 27, 0.8);
+      color: var(--text);
+    }
 
-        @media (max-width: 1200px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+    select { padding: 10px; }
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: slideUp 0.6s ease-out;
-        }
+    .main-grid { display: grid; gap: 20px; grid-template-columns: 1.1fr 0.9fr; }
+    @media (max-width: 1120px) { .main-grid { grid-template-columns: 1fr; } }
 
-        .card h2 {
-            color: #667eea;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .card {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
 
-        .icon {
-            width: 24px;
-            height: 24px;
-        }
+    .card h2 { font-size: 1.16rem; margin-bottom: 12px; }
+    .helper { color: var(--muted); font-size: 0.92rem; margin-bottom: 12px; }
 
-        textarea {
-            width: 100%;
-            min-height: 150px;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 0.95em;
-            resize: vertical;
-            transition: border-color 0.3s;
-        }
+    textarea { min-height: 220px; padding: 14px; resize: vertical; line-height: 1.5; }
 
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+    .metric { border: 1px solid var(--border); border-radius: 12px; padding: 12px; text-align: center; background: rgba(13, 19, 38, 0.9); }
+    .metric b { display: block; font-size: 1.2rem; color: #e8ecff; }
+    .metric span { color: var(--muted); font-size: 0.84rem; }
 
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 15px 0;
-        }
+    .controls-grid { display: grid; gap: 12px; }
+    .llm-grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+    .llm-btn {
+      border: 1px solid var(--border);
+      background: rgba(8, 13, 27, 0.9);
+      color: var(--text);
+      padding: 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+    }
+    .llm-btn.active { border-color: var(--primary-2); box-shadow: inset 0 0 0 1px var(--primary-2); }
+    .toggles { display: grid; gap: 8px; }
+    .toggle { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--border); padding: 10px; border-radius: 12px; background: rgba(8, 13, 27, 0.76); }
+    .toggle small { color: var(--muted); display: block; }
 
-        .option-card {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
+    .btn-row { display: grid; gap: 10px; margin-top: 14px; }
+    button.primary, button.secondary {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s ease;
+    }
+    button.primary:hover, button.secondary:hover { transform: translateY(-1px); }
+    button.primary { color: #061122; background: linear-gradient(90deg, var(--primary-2), #8ea1ff); }
+    button.secondary { color: #fff; background: linear-gradient(95deg, #667eea, #8d4eff); }
 
-        .option-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102,126,234,0.2);
-        }
+    .analysis-box { border: 1px solid var(--border); border-radius: 12px; padding: 14px; background: rgba(8,13,27,.72); min-height: 152px; }
+    .progress { height: 8px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin: 8px 0; }
+    .progress > div { height: 100%; background: linear-gradient(90deg, #42e695, #3bb2ff); }
+    .list { margin-left: 18px; margin-top: 8px; color: #d9e2ff; }
 
-        .option-card.selected {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
-
-        .option-card h3 {
-            font-size: 1em;
-            margin-bottom: 5px;
-            color: #667eea;
-        }
-
-        .option-card p {
-            font-size: 0.85em;
-            color: #666;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .output-section {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 20px;
-            border-radius: 10px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.9em;
-            max-height: 600px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .metrics {
-            display: flex;
-            gap: 15px;
-            margin: 15px 0;
-            flex-wrap: wrap;
-        }
-
-        .metric {
-            flex: 1;
-            min-width: 150px;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 2em;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .metric-label {
-            font-size: 0.85em;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .confidence-bar {
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .confidence-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.5s ease-out;
-        }
-
-        .alert {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            border-color: #28a745;
-        }
-
-        .feature-tag {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.75em;
-            margin-left: 8px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: help;
-        }
-
-        .tooltip:hover::after {
-            content: attr(data-tip);
-            position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.85em;
-            white-space: nowrap;
-            z-index: 1000;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-            color: #666;
-        }
-
-        .tab:hover {
-            color: #667eea;
-        }
-
-        .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-    </style>
+    .output-card { margin-top: 20px; }
+    .output { white-space: pre-wrap; word-break: break-word; max-height: 560px; overflow: auto; border: 1px solid var(--border); border-radius: 14px; padding: 16px; background: #080d1c; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; line-height: 1.45; }
+    .output-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 10px; flex-wrap: wrap; }
+    .muted { color: var(--muted); font-size: .88rem; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🚀 IrsanAI-LRP v1.3</h1>
-            <span class="version-badge">Next-Level Meta-Prompt Generator</span>
-            <div class="stats-bar">
-                <div class="stat">📊 Token-Optimiert</div>
-                <div class="stat">🔒 DSGVO-Konform</div>
-                <div class="stat">⚡ Intent-Confidence</div>
-                <div class="stat">🌐 Multi-LLM</div>
-            </div>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <h1>🚀 IrsanAI · LRP v1.3</h1>
+          <p class="subtitle">Business-orientierter Prompt-Generator mit Resonance-Check, strukturierter Layer-Logik und mehrsprachiger Protokollausgabe.</p>
+          <div class="pill-row">
+            <span class="pill">Resonance Echo</span>
+            <span class="pill">Context · Task · Constraints · Output Format</span>
+            <span class="pill">Token-aware</span>
+            <span class="pill">Multi-LLM Ready</span>
+          </div>
         </div>
-
-        <div class="main-grid">
-            <div class="card">
-                <h2>
-                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
-                    </svg>
-                    Deine Anfrage
-                    <span class="feature-tag">NEU</span>
-                </h2>
-                
-                <textarea id="userPrompt" placeholder="Beschreibe dein Vorhaben...
-
-Beispiele:
-• Erstelle eine PyGame Wetter-App mit Live-Daten
-• Baue mir einen Portfolio-Website-Generator
-• Entwickle ein Machine Learning Dashboard
-• Schreibe ein Python-Skript für Datenanalyse
-
-Je präziser, desto besser das Ergebnis!"></textarea>
-
-                <div class="metrics">
-                    <div class="metric">
-                        <div class="metric-value" id="charCount">0</div>
-                        <div class="metric-label">Zeichen</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-value" id="tokenEstimate">0</div>
-                        <div class="metric-label">≈ Tokens</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-value" id="complexity">-</div>
-                        <div class="metric-label">Komplexität</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>
-                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z"/>
-                    </svg>
-                    Intelligente Analyse
-                </h2>
-
-                <div id="analysisResult">
-                    <div style="text-align: center; padding: 40px; color: #999;">
-                        <svg width="64" height="64" fill="currentColor" viewBox="0 0 20 20" style="opacity: 0.3;">
-                            <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 9a1 1 0 012 0v4a1 1 0 11-2 0V9zm1-5a1 1 0 100 2 1 1 0 000-2z"/>
-                        </svg>
-                        <p style="margin-top: 15px;">Gib deine Anfrage ein, um die Analyse zu starten</p>
-                    </div>
-                </div>
-
-                <button class="btn" onclick="analyzePrompt()">🔍 Anfrage Analysieren</button>
-            </div>
+        <div class="lang-control">
+          <label for="language">Ausgabesprache des LRP-Protokolls</label>
+          <select id="language"></select>
         </div>
+      </div>
+    </section>
 
-        <div class="card">
-            <h2>
-                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5z"/>
-                </svg>
-                Konfiguration
-                <span class="tooltip" data-tip="Wähle deine bevorzugten Optionen">ℹ️</span>
-            </h2>
-
-            <div class="tabs">
-                <div class="tab active" onclick="switchTab('llm')">🤖 LLM-Ziel</div>
-                <div class="tab" onclick="switchTab('features')">⚙️ Features</div>
-                <div class="tab" onclick="switchTab('advanced')">🔧 Erweitert</div>
-            </div>
-
-            <div class="tab-content active" id="llm-tab">
-                <div class="options-grid" id="llmOptions">
-                    <div class="option-card selected" data-llm="universal" onclick="selectLLM(this)">
-                        <h3>🌐 Universal</h3>
-                        <p>Funktioniert mit allen LLMs (empfohlen)</p>
-                    </div>
-                    <div class="option-card" data-llm="chatgpt" onclick="selectLLM(this)">
-                        <h3>🟢 ChatGPT</h3>
-                        <p>Optimiert für OpenAI</p>
-                    </div>
-                    <div class="option-card" data-llm="claude" onclick="selectLLM(this)">
-                        <h3>🟣 Claude</h3>
-                        <p>Optimiert für Anthropic</p>
-                    </div>
-                    <div class="option-card" data-llm="gemini" onclick="selectLLM(this)">
-                        <h3>🔵 Gemini</h3>
-                        <p>Optimiert für Google</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="features-tab">
-                <div style="display: grid; gap: 10px;">
-                    <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; cursor: pointer;">
-                        <input type="checkbox" id="intentConfidence" checked>
-                        <div>
-                            <strong>Intent-Confidence Score</strong>
-                            <span class="feature-tag">v1.3</span>
-                            <br><small>Zeigt Sicherheit der Interpretation</small>
-                        </div>
-                    </label>
-                    <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; cursor: pointer;">
-                        <input type="checkbox" id="tokenOptimization" checked>
-                        <div>
-                            <strong>Token-Optimierung</strong>
-                            <br><small>Conditional Pre-Selector (spart bis zu 40% Tokens)</small>
-                        </div>
-                    </label>
-                    <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; cursor: pointer;">
-                        <input type="checkbox" id="emergencyFallback" checked>
-                        <div>
-                            <strong>Emergency Fallback</strong>
-                            <span class="feature-tag">v1.3</span>
-                            <br><small>Sicherheitsnetz bei LLM-Fehlern</small>
-                        </div>
-                    </label>
-                    <label style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; cursor: pointer;">
-                        <input type="checkbox" id="versionCheck">
-                        <div>
-                            <strong>Version-Checker</strong>
-                            <span class="feature-tag">v1.3</span>
-                            <br><small>Warnt bei veralteten Protokollen</small>
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <div class="tab-content" id="advanced-tab">
-                <div style="display: grid; gap: 15px;">
-                    <div>
-                        <label><strong>Token-Budget:</strong></label>
-                        <input type="range" id="tokenBudget" min="500" max="4000" value="2000" step="100" 
-                               style="width: 100%;" oninput="document.getElementById('tokenValue').textContent = this.value">
-                        <div style="text-align: center; margin-top: 5px;">
-                            <span id="tokenValue">2000</span> Tokens
-                        </div>
-                    </div>
-                    <div>
-                        <label><strong>Sprache:</strong></label>
-                        <select id="language" style="width: 100%; padding: 10px; border-radius: 8px; border: 2px solid #e0e0e0;">
-                            <option value="de">🇩🇪 Deutsch</option>
-                            <option value="en">🇬🇧 English</option>
-                            <option value="fr">🇫🇷 Français</option>
-                            <option value="es">🇪🇸 Español</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn btn-secondary" onclick="generateLRP()">
-                ⚡ LRP-Protokoll Generieren
-            </button>
+    <div class="main-grid">
+      <section class="card">
+        <h2>1) Anfrage eingeben</h2>
+        <p class="helper">Beschreibe dein Ziel möglichst konkret. Das LRP wird beim Generieren in der gewählten Sprache erzeugt.</p>
+        <textarea id="userPrompt" placeholder="Beispiel: Erstelle ein Konzept für ein B2B SaaS Onboarding-Flow mit KPI-Metriken, Constraints und klaren Deliverables."></textarea>
+        <div class="metrics">
+          <div class="metric"><b id="charCount">0</b><span>Zeichen</span></div>
+          <div class="metric"><b id="tokenEstimate">0</b><span>≈ Tokens</span></div>
+          <div class="metric"><b id="complexity">-</b><span>Komplexität</span></div>
         </div>
+      </section>
 
-        <div class="card">
-            <h2>
-                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"/>
-                </svg>
-                Generiertes LRP-Protokoll
-                <button onclick="copyToClipboard()" style="float: right; padding: 8px 15px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">
-                    📋 Kopieren
-                </button>
-            </h2>
-            <div class="output-section" id="output">Hier erscheint dein generiertes LRP-Protokoll...</div>
+      <section class="card">
+        <h2>2) Konfiguration & Analyse</h2>
+        <div class="controls-grid">
+          <div>
+            <p class="helper">LLM-Ziel</p>
+            <div class="llm-grid" id="llmOptions"></div>
+          </div>
+          <div class="toggles">
+            <label class="toggle"><input type="checkbox" id="intentConfidence" checked /><div><strong>Intent-Confidence</strong><small>Gibt einen Confidence-Score im Protokoll aus.</small></div></label>
+            <label class="toggle"><input type="checkbox" id="tokenOptimization" checked /><div><strong>Token-Optimierung</strong><small>MINI/FULL Pre-Selector abhängig von Prompt-Länge.</small></div></label>
+            <label class="toggle"><input type="checkbox" id="emergencyFallback" checked /><div><strong>Emergency Fallback</strong><small>Sicherer Fallback-Block bei Inkompatibilitäten.</small></div></label>
+            <label class="toggle"><input type="checkbox" id="versionCheck" /><div><strong>Version-Check</strong><small>Hinweis auf Protokollversion bei Bedarf.</small></div></label>
+          </div>
+          <div>
+            <p class="helper">Token-Budget: <b id="tokenValue">2000</b></p>
+            <input type="range" id="tokenBudget" min="500" max="5000" step="100" value="2000" />
+          </div>
+          <div class="analysis-box" id="analysisResult">Analyse wartet auf Eingabe…</div>
+          <div class="btn-row">
+            <button class="primary" onclick="analyzePrompt()">🔍 Analyse starten</button>
+            <button class="secondary" onclick="generateLRP()">⚡ LRP-Protokoll generieren</button>
+          </div>
         </div>
+      </section>
     </div>
 
-    <script>
-        let selectedLLM = 'universal';
-        let analysisData = null;
+    <section class="card output-card">
+      <div class="output-toolbar">
+        <h2>3) Generiertes LRP-Protokoll</h2>
+        <button class="primary" onclick="copyToClipboard()">📋 Kopieren</button>
+      </div>
+      <p class="muted">Die Ausgabe enthält jetzt immer Core Components + Resonance Check und wird in der gewählten Zielsprache aufgebaut.</p>
+      <div class="output" id="output">Hier erscheint dein generiertes LRP-Protokoll…</div>
+    </section>
+  </div>
 
-        const userPrompt = document.getElementById('userPrompt');
-        userPrompt.addEventListener('input', updateMetrics);
+  <script>
+    const LANGUAGES = {
+      de: { label: "🇩🇪 Deutsch", protocolTitle: "IrsanAI-LRP v1.3 – Protokoll", auto: "Automatisch erzeugtes LRP-Dokument", metadata: "METADATEN", userRequest: "NUTZER-ANFRAGE", components: "CORE COMPONENTS", resonance: "RESONANCE CHECK", instructions: "SYSTEMANWEISUNGEN", fallback: "EMERGENCY FALLBACK", quality: "QUALITÄTSKRITERIEN", responseLang: "Antworte auf DEUTSCH.", complexity: ["Niedrig","Mittel","Hoch"] },
+      en: { label: "🇬🇧 English", protocolTitle: "IrsanAI-LRP v1.3 – Protocol", auto: "Automatically generated LRP document", metadata: "METADATA", userRequest: "USER REQUEST", components: "CORE COMPONENTS", resonance: "RESONANCE CHECK", instructions: "SYSTEM INSTRUCTIONS", fallback: "EMERGENCY FALLBACK", quality: "QUALITY CRITERIA", responseLang: "Respond in ENGLISH.", complexity: ["Low","Medium","High"] },
+      es: { label: "🇪🇸 Español", protocolTitle: "IrsanAI-LRP v1.3 – Protocolo", auto: "Documento LRP generado automáticamente", metadata: "METADATOS", userRequest: "SOLICITUD DEL USUARIO", components: "COMPONENTES CLAVE", resonance: "VERIFICACIÓN DE RESONANCIA", instructions: "INSTRUCCIONES DEL SISTEMA", fallback: "FALLBACK DE EMERGENCIA", quality: "CRITERIOS DE CALIDAD", responseLang: "Responde en ESPAÑOL.", complexity: ["Baja","Media","Alta"] },
+      it: { label: "🇮🇹 Italiano", protocolTitle: "IrsanAI-LRP v1.3 – Protocollo", auto: "Documento LRP generato automaticamente", metadata: "METADATI", userRequest: "RICHIESTA UTENTE", components: "COMPONENTI CORE", resonance: "CONTROLLO DI RISONANZA", instructions: "ISTRUZIONI DI SISTEMA", fallback: "FALLBACK DI EMERGENZA", quality: "CRITERI DI QUALITÀ", responseLang: "Rispondi in ITALIANO.", complexity: ["Bassa","Media","Alta"] },
+      bs: { label: "🇧🇦 Bosanski", protocolTitle: "IrsanAI-LRP v1.3 – Protokol", auto: "Automatski generisan LRP dokument", metadata: "METAPODACI", userRequest: "KORISNIČKI ZAHTJEV", components: "KLJUČNE KOMPONENTE", resonance: "PROVJERA REZONANCE", instructions: "SISTEMSKE UPUTE", fallback: "HITNI FALLBACK", quality: "KRITERIJI KVALITETE", responseLang: "Odgovori na BOSANSKOM.", complexity: ["Niska","Srednja","Visoka"] },
+      ru: { label: "🇷🇺 Русский", protocolTitle: "IrsanAI-LRP v1.3 — Протокол", auto: "Автоматически созданный документ LRP", metadata: "МЕТАДАННЫЕ", userRequest: "ЗАПРОС ПОЛЬЗОВАТЕЛЯ", components: "КЛЮЧЕВЫЕ КОМПОНЕНТЫ", resonance: "ПРОВЕРКА РЕЗОНАНСА", instructions: "СИСТЕМНЫЕ ИНСТРУКЦИИ", fallback: "АВАРИЙНЫЙ FALLBACK", quality: "КРИТЕРИИ КАЧЕСТВА", responseLang: "Отвечай на РУССКОМ.", complexity: ["Низкая","Средняя","Высокая"] },
+      zh: { label: "🇨🇳 中文", protocolTitle: "IrsanAI-LRP v1.3 — 协议", auto: "自动生成的 LRP 文档", metadata: "元数据", userRequest: "用户请求", components: "核心组件", resonance: "共振检查", instructions: "系统指令", fallback: "紧急回退", quality: "质量标准", responseLang: "请用中文回答。", complexity: ["低","中","高"] },
+      fr: { label: "🇫🇷 Français", protocolTitle: "IrsanAI-LRP v1.3 – Protocole", auto: "Document LRP généré automatiquement", metadata: "MÉTADONNÉES", userRequest: "DEMANDE UTILISATEUR", components: "COMPOSANTS CLÉS", resonance: "VÉRIFICATION DE RÉSONANCE", instructions: "INSTRUCTIONS SYSTÈME", fallback: "FALLBACK D'URGENCE", quality: "CRITÈRES DE QUALITÉ", responseLang: "Réponds en FRANÇAIS.", complexity: ["Faible","Moyenne","Élevée"] },
+      ptbr: { label: "🇧🇷 Português (BR)", protocolTitle: "IrsanAI-LRP v1.3 – Protocolo", auto: "Documento LRP gerado automaticamente", metadata: "METADADOS", userRequest: "SOLICITAÇÃO DO USUÁRIO", components: "COMPONENTES-CHAVE", resonance: "CHECAGEM DE RESSONÂNCIA", instructions: "INSTRUÇÕES DO SISTEMA", fallback: "FALLBACK DE EMERGÊNCIA", quality: "CRITÉRIOS DE QUALIDADE", responseLang: "Responda em PORTUGUÊS (BR).", complexity: ["Baixa","Média","Alta"] },
+      hi: { label: "🇮🇳 हिन्दी", protocolTitle: "IrsanAI-LRP v1.3 — प्रोटोकॉल", auto: "स्वचालित रूप से निर्मित LRP दस्तावेज़", metadata: "मेटाडेटा", userRequest: "यूज़र अनुरोध", components: "मुख्य घटक", resonance: "रेज़ोनेंस जाँच", instructions: "सिस्टम निर्देश", fallback: "इमरजेंसी फॉलबैक", quality: "गुणवत्ता मानदंड", responseLang: "हिंदी में उत्तर दें।", complexity: ["निम्न","मध्यम","उच्च"] },
+      ja: { label: "🇯🇵 日本語", protocolTitle: "IrsanAI-LRP v1.3 — プロトコル", auto: "自動生成されたLRPドキュメント", metadata: "メタデータ", userRequest: "ユーザー要求", components: "コアコンポーネント", resonance: "レゾナンスチェック", instructions: "システム指示", fallback: "緊急フォールバック", quality: "品質基準", responseLang: "日本語で回答してください。", complexity: ["低","中","高"] },
+      tr: { label: "🇹🇷 Türkçe", protocolTitle: "IrsanAI-LRP v1.3 – Protokol", auto: "Otomatik oluşturulan LRP dokümanı", metadata: "METAVERİ", userRequest: "KULLANICI TALEBİ", components: "TEMEL BİLEŞENLER", resonance: "REZONANS KONTROLÜ", instructions: "SİSTEM TALİMATLARI", fallback: "ACİL DURUM FALLBACK", quality: "KALİTE KRİTERLERİ", responseLang: "TÜRKÇE yanıt ver.", complexity: ["Düşük","Orta","Yüksek"] }
+    };
 
-        function updateMetrics() {
-            const text = userPrompt.value;
-            const chars = text.length;
-            const tokens = Math.ceil(chars / 4);
-            const complexity = chars < 50 ? 'Niedrig' : chars < 200 ? 'Mittel' : 'Hoch';
+    const LLM_OPTIONS = [
+      { id: "universal", title: "🌐 Universal", desc: "Für alle LLMs" },
+      { id: "chatgpt", title: "🟢 ChatGPT", desc: "OpenAI" },
+      { id: "claude", title: "🟣 Claude", desc: "Anthropic" },
+      { id: "gemini", title: "🔵 Gemini", desc: "Google" },
+      { id: "qwen", title: "🟠 Qwen", desc: "Alibaba" }
+    ];
 
-            document.getElementById('charCount').textContent = chars;
-            document.getElementById('tokenEstimate').textContent = tokens;
-            document.getElementById('complexity').textContent = complexity;
-        }
+    let selectedLLM = "universal";
 
-        function selectLLM(element) {
-            document.querySelectorAll('#llmOptions .option-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            element.classList.add('selected');
-            selectedLLM = element.dataset.llm;
-        }
+    const languageSelect = document.getElementById("language");
+    const userPrompt = document.getElementById("userPrompt");
 
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tab + '-tab').classList.add('active');
-        }
+    Object.entries(LANGUAGES).forEach(([key, data]) => {
+      const option = document.createElement("option");
+      option.value = key;
+      option.textContent = data.label;
+      languageSelect.appendChild(option);
+    });
+    languageSelect.value = "de";
 
-        function analyzePrompt() {
-            const prompt = userPrompt.value.trim();
-            if (!prompt) {
-                alert('Bitte gib zuerst eine Anfrage ein!');
-                return;
-            }
+    const llmContainer = document.getElementById("llmOptions");
+    LLM_OPTIONS.forEach((item, idx) => {
+      const button = document.createElement("button");
+      button.className = `llm-btn ${idx === 0 ? "active" : ""}`;
+      button.dataset.llm = item.id;
+      button.type = "button";
+      button.innerHTML = `<strong>${item.title}</strong><br><small>${item.desc}</small>`;
+      button.onclick = () => {
+        document.querySelectorAll(".llm-btn").forEach((b) => b.classList.remove("active"));
+        button.classList.add("active");
+        selectedLLM = item.id;
+      };
+      llmContainer.appendChild(button);
+    });
 
-            // Intelligente Analyse
-            const hasCode = /code|app|programm|skript|website|software/i.test(prompt);
-            const hasHardware = /gpu|auflösung|performance|game|spiel|3d/i.test(prompt);
-            const hasPersistence = /speicher|datenbank|save|persist|fortschritt/i.test(prompt);
-            
-            const confidence = Math.min(95, 60 + (prompt.length / 10));
-            const recommendedPath = (hasCode || hasHardware || hasPersistence) ? 2 : 1;
+    document.getElementById("tokenBudget").addEventListener("input", (e) => {
+      document.getElementById("tokenValue").textContent = e.target.value;
+    });
 
-            analysisData = {
-                confidence,
-                recommendedPath,
-                hasCode,
-                hasHardware,
-                hasPersistence
-            };
+    userPrompt.addEventListener("input", updateMetrics);
+    updateMetrics();
 
-            const resultDiv = document.getElementById('analysisResult');
-            resultDiv.innerHTML = `
-                <div class="alert alert-success">
-                    <strong>✅ Analyse abgeschlossen!</strong>
-                </div>
-                
-                <div style="margin: 15px 0;">
-                    <strong>Intent-Confidence:</strong>
-                    <div class="confidence-bar">
-                        <div class="confidence-fill" style="width: ${confidence}%"></div>
-                    </div>
-                    <div style="text-align: center; color: #667eea; font-weight: 600;">
-                        ${confidence.toFixed(0)}% Sicherheit
-                    </div>
-                </div>
+    function updateMetrics() {
+      const chars = userPrompt.value.length;
+      const tokens = Math.ceil(chars / 4);
+      const lang = LANGUAGES[languageSelect.value];
+      const complexity = chars < 50 ? lang.complexity[0] : chars < 220 ? lang.complexity[1] : lang.complexity[2];
+      document.getElementById("charCount").textContent = chars;
+      document.getElementById("tokenEstimate").textContent = tokens;
+      document.getElementById("complexity").textContent = complexity;
+    }
 
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <strong>📊 Erkannte Eigenschaften:</strong>
-                    <ul style="margin: 10px 0 0 20px;">
-                        <li>${hasCode ? '✅' : '❌'} Code-Generierung erforderlich</li>
-                        <li>${hasHardware ? '✅' : '❌'} Hardware-Optimierung nötig</li>
-                        <li>${hasPersistence ? '✅' : '❌'} Persistenz-Anforderungen</li>
-                    </ul>
-                </div>
+    languageSelect.addEventListener("change", updateMetrics);
 
-                <div style="background: ${recommendedPath === 2 ? '#fff3cd' : '#d4edda'}; padding: 15px; border-radius: 8px; border-left: 4px solid ${recommendedPath === 2 ? '#ffc107' : '#28a745'};">
-                    <strong>💡 Empfehlung:</strong><br>
-                    ${recommendedPath === 2 ? 
-                        '⚠️ <strong>Weg 2</strong> - OS/HW-Erkennung wird empfohlen für optimale Ergebnisse' :
-                        '✅ <strong>Weg 1</strong> - Direkte Antwort ist ausreichend'}
-                </div>
-            `;
-        }
+    function analyzePrompt() {
+      const prompt = userPrompt.value.trim();
+      if (!prompt) {
+        alert("Bitte zuerst eine Anfrage eingeben.");
+        return;
+      }
 
-        function generateLRP() {
-            const prompt = userPrompt.value.trim();
-            if (!prompt) {
-                alert('Bitte gib zuerst eine Anfrage ein!');
-                return;
-            }
+      const hasCode = /code|app|programm|skript|website|software|api|dashboard|python|javascript/i.test(prompt);
+      const hasHardware = /gpu|cpu|auflösung|performance|game|spiel|3d|hardware/i.test(prompt);
+      const hasPersistence = /speicher|datenbank|save|persist|fortschritt|state|storage/i.test(prompt);
+      const confidence = Math.min(96, 58 + prompt.length / 8 + (hasCode ? 8 : 0));
+      const recommendedPath = (hasCode || hasHardware || hasPersistence) ? 2 : 1;
 
-            const timestamp = new Date().toISOString();
-            const taskId = 'usr_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-            const uniqueKey = Math.random().toString(36).substr(2, 9);
-            
-            const intentConfidence = document.getElementById('intentConfidence').checked;
-            const tokenOptimization = document.getElementById('tokenOptimization').checked;
-            const emergencyFallback = document.getElementById('emergencyFallback').checked;
-            const versionCheck = document.getElementById('versionCheck').checked;
-            const tokenBudget = document.getElementById('tokenBudget').value;
-            const language = document.getElementById('language').value;
+      document.getElementById("analysisResult").innerHTML = `
+        <strong>${confidence.toFixed(0)}% Intent-Confidence</strong>
+        <div class="progress"><div style="width:${confidence}%"></div></div>
+        <div>${recommendedPath === 2 ? "⚠️ Empfehlung: Weg 2 (OS/HW-bewusst)" : "✅ Empfehlung: Weg 1 (direkt)"}</div>
+        <ul class="list">
+          <li>${hasCode ? "✅" : "❌"} Code-/Produktionsbezug</li>
+          <li>${hasHardware ? "✅" : "❌"} Hardware-/Performancebezug</li>
+          <li>${hasPersistence ? "✅" : "❌"} Persistenz-/Statebezug</li>
+        </ul>
+      `;
+    }
 
-            const isSimplePrompt = prompt.length < 100;
-            const preSelectorSize = (tokenOptimization && isSimplePrompt) ? 'MINI' : 'FULL';
+    function generateLRP() {
+      const prompt = userPrompt.value.trim();
+      if (!prompt) {
+        alert("Bitte zuerst eine Anfrage eingeben.");
+        return;
+      }
 
-            let protocol = `# IrsanAI-LRP v1.3 – NEXT-LEVEL PROTOCOL
-*Dies ist ein automatisch generiertes IrsanAI-LRP v1.3 Dokument*
+      const langKey = languageSelect.value;
+      const lang = LANGUAGES[langKey];
+      const tokenBudget = document.getElementById("tokenBudget").value;
+      const intentConfidence = document.getElementById("intentConfidence").checked;
+      const tokenOptimization = document.getElementById("tokenOptimization").checked;
+      const emergencyFallback = document.getElementById("emergencyFallback").checked;
+      const versionCheck = document.getElementById("versionCheck").checked;
+      const timestamp = new Date().toISOString();
+      const preSelectorMode = tokenOptimization && prompt.length < 110 ? "MINI" : "FULL";
+      const taskId = `usr_${Date.now()}`;
+      const uniq = Math.random().toString(36).slice(2, 10);
 
-## METADATEN (MASCHINENLESBAR)
+      const protocol = `# ${lang.protocolTitle}
+*${lang.auto}*
+
+## ${lang.metadata}
 \`\`\`yaml
 creator: "IrsanAI Web-UI v1.3"
 timestamp: "${timestamp}"
 protocol_version: "1.3"
-task_id: "${taskId}"
-unique_key: "${uniqueKey}"
 llm_target: "${selectedLLM}"
-pre_selector_mode: "${preSelectorSize}"
+language: "${langKey}"
 token_budget: ${tokenBudget}
-language: "${language}"
+pre_selector_mode: "${preSelectorMode}"
+task_id: "${taskId}"
+unique_key: "${uniq}"
 features:
   intent_confidence: ${intentConfidence}
   token_optimization: ${tokenOptimization}
@@ -642,186 +339,50 @@ features:
   version_check: ${versionCheck}
 \`\`\`
 
-${versionCheck ? `## VERSION-CHECK
-⚠️ **WICHTIG**: Dieses Protokoll nutzt LRP v1.3. Falls du mit einer älteren Version arbeitest, besuche: https://github.com/pythonlover2023/IrsanAI-LRP
-
-` : ''}## USER-REQUEST
+${versionCheck ? `> Version note: LRP v1.3 active.\n\n` : ""}## ${lang.userRequest}
 \`\`\`text
 ${prompt}
 \`\`\`
 
-## PRE-SELECTOR ANWEISUNG${preSelectorSize === 'MINI' ? ' (TOKEN-OPTIMIERT)' : ''}
+## ${lang.components}
+1. Context Layer — define stable facts, roles, and assumptions.
+2. Task Layer — restate the goal in one clear sentence.
+3. Constraint Layer — separate hard vs. soft constraints.
+4. Output Format — require exact response structure.
 
-${preSelectorSize === 'FULL' ? `Führe folgenden META-ERKENNTNIS-PROZESS durch:
+## ${lang.resonance}
+1. Echo interpreted Context + Task + Constraints in <= 80 tokens.
+2. Ask for clarification only if ambiguity remains.
+3. Continue execution after confirmation.
 
-1. **SELBSTREFLEKTIERENDE INTENT-ANALYSE**
-   - Ist das ein **einmaliges Produkt** oder **laufendes System**?
-   - Benötigt es **Hardware-Zugriff** (OS, GPU, Auflösung)?
-   - Wäre es **ohne Umgebungskenntnis suboptimal**?
-   - Ist es **lokal ausführbar** oder nur Sandbox-fähig?
+## ${lang.instructions}
+- Follow strict LRP structure.
+- Do not alter the user request.
+- ${lang.responseLang}
+- If Path 2 is required, generate only environment detector first.
+- Respect max token budget: ${tokenBudget}
 
-2. **SYSTEMISCHES ENTSCHEIDUNGSMUSTER**
-   
-   **Weg 1 (Direkte Antwort)** NUR wenn:
-   - Vollständig selbst-contained (Text/Bild/Code ohne HW)
-   - Direkt im LLM-Sandbox ausführbar
-   - Keine Persistenz nötig
-   - Keine Hardware-Optimierung erforderlich
-   
-   **Weg 2 (OS/HW-Erkennung)** bei:
-   - Code für lokale Ausführung
-   - Persistenz-Anforderungen
-   - Hardware-Abhängigkeiten (GPU, Auflösung, Performance)
-   - Interaktive Systeme (GUI, Games, Visualisierungen)
+${intentConfidence ? `- Include an intent-confidence score with top uncertainty factors.\n` : ""}${tokenOptimization ? `- Use token-efficient style and avoid unnecessary verbosity.\n` : ""}
+${emergencyFallback ? `## ${lang.fallback}
+If protocol compliance fails, return a concise error + reason + next step.
 
-3. **BEGRÜNDUNG DER ENTSCHEIDUNG**
-   - Gib echte technische Gründe, keine Keywords
-   - Erkläre: Warum ohne OS/HW-Erkennung suboptimal?
-   - Erkläre: Welche Vorteile bringt die Erkennung?
-
-${intentConfidence ? `4. **INTENT-CONFIDENCE-SCORE** ⭐ NEU in v1.3
-   Bewerte deine Analyse-Sicherheit:
-   \`\`\`
-   Meine Intent-Analyse-Sicherheit: [X]%
-   
-   Unsicherheitsfaktoren:
-   - [Faktor 1]: [Y]% Sicherheit
-   - [Faktor 2]: [Z]% Sicherheit
-   
-   Gesamteinschätzung: [HOCH/MITTEL/NIEDRIG]
-   \`\`\`
-   
-   Falls Sicherheit < 70%: Frage präzise nach!
-
-5.` : '4.'} **BENUTZERBESTÄTIGUNG**
-   "Ich verstehe: [ZUSAMMENFASSUNG] mit [X]% Sicherheit.
-   
-   🔍 **Was du wolltest**: [KURZE ZUSAMMENFASSUNG]
-   
-   ✅ **Weg 1: Direkte Antwort** ([Y]% Wahrscheinlichkeit)
-      - Was du bekommst: [BESCHREIBUNG]
-      - Warum: [BEGRÜNDUNG]
-   
-   ⚠️ **Weg 2: OS/HW-Erkennung** ([Z]% Wahrscheinlichkeit)
-      - Was du bekommst: [BESCHREIBUNG]
-      - Warum: [BEGRÜNDUNG]
-   
-   💡 Empfehlung: Weg [X] mit [MAX]% Wahrscheinlichkeit
-   
-   Ist das korrekt? (JA/NEIN)"
-
-${intentConfidence ? '6.' : '5.'} **NACH "JA"-BESTÄTIGUNG**
-   - **Weg 1**: Generiere direkt die Lösung
-   - **Weg 2**: Generiere **NUR** \`IrsanAI_OS_HW_Detector.py\`
-     - KEINE Erwähnung des Endprodukts
-     - KEINE Feature-Beschreibungen
-     - NUR der Detektor-Code
-
-${intentConfidence ? '7.' : '6.'} **BEI "NEIN"**
-   Fordere präzise Klärung der Abweichungen an` : 
-`**MINI PRE-SELECTOR** (Für einfache Anfragen)
-
-Schnelle Analyse:
-1. Braucht es Hardware-Kontext? (JA → Weg 2, NEIN → Weg 1)
-2. Lokale Code-Ausführung geplant? (JA → Weg 2)
-3. Falls unsicher: Frage nach
-
-Bestätigung:
-"Ich verstehe: [ZUSAMMENFASSUNG]
-Empfehlung: Weg [1/2]
-Korrekt? (JA/NEIN)"
-
-Bei JA:
-- Weg 1: Direkte Lösung
-- Weg 2: \`IrsanAI_OS_HW_Detector.py\` generieren`}
-
-${emergencyFallback ? `
-
-## EMERGENCY FALLBACK ⭐ NEU in v1.3
-Falls du diese Anweisungen NICHT genau befolgen kannst:
-
-**ANTWORTE MIT:**
-\`\`\`
-⚠️ PROTOKOLL-FEHLER ⚠️
-
-Ich kann IrsanAI-LRP v1.3 nicht vollständig verarbeiten.
-
-Grund: [Erkläre das Problem]
-
-Vorschlag:
-1. Nutze ein LRP-kompatibles LLM (ChatGPT, Claude, Qwen)
-2. Oder formuliere deine Anfrage ohne Protokoll
-
-Für Support: https://github.com/pythonlover2023/IrsanAI-LRP/issues
-\`\`\`
-
-**SENDE NICHTS ANDERES!**` : ''}
-
-## SYSTEMANWEISUNGEN FÜR LLMs
-
-${selectedLLM !== 'universal' ? `**OPTIMIERT FÜR: ${selectedLLM.toUpperCase()}**
-
-` : ''}**KRITISCHE REGELN:**
-1. Dies ist ein IrsanAI-LRP v1.3 Dokument - NICHTS außerhalb von USER-REQUEST ändern
-2. Bearbeite NUR den USER-REQUEST Abschnitt
-3. Antworte auf ${language === 'de' ? 'DEUTSCH' : language === 'en' ? 'ENGLISCH' : language === 'fr' ? 'FRANZÖSISCH' : 'SPANISCH'}
-4. Nach JA auf Weg 2: Generiere NUR den OS/HW-Detektor
-5. Bei Zweifel: FRAGE NACH statt zu raten
-
-**TOKEN-BUDGET:** Max. ${tokenBudget} Tokens für deine Antwort
-
-${tokenOptimization ? `**TOKEN-OPTIMIERUNG AKTIV:**
-- Pre-Selector wurde auf ${preSelectorSize} optimiert
-- Erwartete Token-Ersparnis: ${preSelectorSize === 'MINI' ? '~40%' : '~15%'}
-- Bleibe präzise und fokussiert
-` : ''}
-**QUALITÄTSKRITERIEN:**
-✅ Klare Intent-Erfassung
-✅ Technische Begründungen (keine Keywords)
-✅ Benutzerbestätigung vor Code-Generierung
-${intentConfidence ? '✅ Intent-Confidence-Score angeben\n' : ''}✅ Bei Weg 2: NUR Detektor-Code, sonst nichts
-
-**PROTOKOLL-KONFORMITÄT:**
-Dieser LRP v1.3 wurde für maximale Kompatibilität optimiert.
-Falls Probleme auftreten → Emergency Fallback nutzen!
+` : ""}## ${lang.quality}
+✅ Intent captured clearly
+✅ Technical rationale instead of keywords only
+✅ Resonance check executed before final answer
+✅ Output format respected
 
 ---
+IrsanAI-LRP v1.3 | ${new Date().toLocaleString()}`;
 
-**IrsanAI-LRP v1.3** | Erstellt: ${new Date().toLocaleString('de-DE')}
-*Der Standard für strukturierte LLM-Kommunikation*
-`;
+      document.getElementById("output").textContent = protocol;
+    }
 
-            document.getElementById('output').textContent = protocol;
-            
-            // Success Animation
-            const outputSection = document.getElementById('output');
-            outputSection.style.animation = 'none';
-            setTimeout(() => {
-                outputSection.style.animation = 'slideUp 0.6s ease-out';
-            }, 10);
-        }
-
-        function copyToClipboard() {
-            const output = document.getElementById('output').textContent;
-            if (output === 'Hier erscheint dein generiertes LRP-Protokoll...') {
-                alert('Generiere erst ein Protokoll!');
-                return;
-            }
-            
-            navigator.clipboard.writeText(output).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Kopiert!';
-                btn.style.background = '#28a745';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '#28a745';
-                }, 2000);
-            });
-        }
-
-        // Initialize
-        updateMetrics();
-    </script>
+    function copyToClipboard() {
+      const text = document.getElementById("output").textContent;
+      if (!text || text.includes("Hier erscheint")) return;
+      navigator.clipboard.writeText(text);
+    }
+  </script>
 </body>
 </html>
