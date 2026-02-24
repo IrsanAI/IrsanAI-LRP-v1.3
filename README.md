@@ -58,7 +58,7 @@ LRP trennt Eingaben bewusst in vier Ebenen, damit LLMs robuster und reproduzierb
 
 ## Repositories & Links
 - **LIVE USE:**
-  - [Try Live:](https://irsanai.github.io/LRP-v1.3/)
+  - [Du kannst das Tool direkt über die GitHub Page nutzen:](https://irsanai.github.io/LRP-v1.3/)
 - **Aktuelles Ziel-Repository:**
   - https://github.com/IrsanAI/LRP-v1.3
 
