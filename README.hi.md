@@ -1,29 +1,32 @@
 # IrsanAI · LRP v1.3
 
-> 🌍 [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
+> 🌍 **इस README को अपनी भाषा में पढ़ें:**
+> [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
 
-## Overview
-स्ट्रक्चर्ड प्रॉम्प्ट प्रोटोकॉल: Context/Task/Constraints/Output Format और execution से पहले resonance check.
+## सारांश
+LRP एक संरचित प्रॉम्प्ट प्रोटोकॉल है जो संदर्भ, कार्य, बाधाएँ और आउटपुट प्रारूप को अलग करता है, तथा निष्पादन से पहले अनिवार्य रेज़ोनेंस जाँच करता है।
 
-## Core Components
-1. Context Layer
-2. Task Layer
-3. Constraint Layer
-4. Output Format
+## मुख्य घटक
+1. संदर्भ परत
+2. कार्य परत
+3. बाधा परत
+4. आउटपुट प्रारूप
 
-## Resonance Check
-- Echo interpreted context/task/constraints
-- Ask only if ambiguity exists
-- Execute after alignment
+## रेज़ोनेंस जाँच
+- समझे गए संदर्भ/कार्य/बाधाओं को संक्षेप में दोहराएँ
+- अस्पष्टता होने पर ही प्रश्न पूछें
+- संरेखण के बाद निष्पादन करें
 
-## Quick Start
+## त्वरित प्रारंभ
+आप यह टूल सीधे GitHub Pages पर उपयोग कर सकते हैं: https://irsanai.github.io/LRP-v1.3/
+
 ```bash
 python3 -m http.server 4173
 ```
-Open: `http://127.0.0.1:4173/index.html`
+खोलें: `http://127.0.0.1:4173/index.html`
 
-## Main Documentation
-- [German Main README](README.md)
-- [Usage](docs/usage.md)
-- [Features](docs/features.md)
-- [Roadmap](docs/professionalization-roadmap.md)
+## मुख्य दस्तावेज़
+- [जर्मन मुख्य README](README.md)
+- [उपयोग मार्गदर्शिका](docs/usage.md)
+- [विशेषताएँ](docs/features.md)
+- [रोडमैप](docs/professionalization-roadmap.md)

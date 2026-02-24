@@ -1,29 +1,32 @@
 # IrsanAI · LRP v1.3
 
-> 🌍 [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
+> 🌍 **Leia este README no seu idioma:**
+> [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
 
-## Overview
-Protocolo estruturado de prompts com Contexto/Tarefa/Restrições/Formato de saída e checagem de ressonância antes da execução.
+## Visão geral
+LRP é um protocolo de prompting estruturado que separa contexto, tarefa, restrições e formato de saída, com checagem de ressonância obrigatória antes da execução.
 
-## Core Components
-1. Context Layer
-2. Task Layer
-3. Constraint Layer
-4. Output Format
+## Componentes principais
+1. Camada de contexto
+2. Camada de tarefa
+3. Camada de restrições
+4. Formato de saída
 
-## Resonance Check
-- Echo interpreted context/task/constraints
-- Ask only if ambiguity exists
-- Execute after alignment
+## Checagem de ressonância
+- Repetir brevemente contexto/tarefa/restrições interpretados
+- Perguntar apenas se houver ambiguidade
+- Executar após alinhamento
 
-## Quick Start
+## Início rápido
+Você pode usar a ferramenta diretamente pelo GitHub Pages: https://irsanai.github.io/LRP-v1.3/
+
 ```bash
 python3 -m http.server 4173
 ```
-Open: `http://127.0.0.1:4173/index.html`
+Abrir: `http://127.0.0.1:4173/index.html`
 
-## Main Documentation
-- [German Main README](README.md)
-- [Usage](docs/usage.md)
-- [Features](docs/features.md)
-- [Roadmap](docs/professionalization-roadmap.md)
+## Documentação principal
+- [README principal em alemão](README.md)
+- [Guia de uso](docs/usage.md)
+- [Funcionalidades](docs/features.md)
+- [Roteiro](docs/professionalization-roadmap.md)

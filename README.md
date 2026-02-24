@@ -1,6 +1,6 @@
 # IrsanAI-LRP v1.3 🚀
 
-> 🌍 **Read this README in your language:**
+> 🌍 **Lies dieses README in deiner Sprache:**
 > [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
 
 > **Revolutionäres Meta-Protokoll für robustes Prompt Engineering.**
@@ -19,20 +19,22 @@ IrsanAI-LRP v1.3 geht über klassische Prompt-Generatoren hinaus:
 
 ## LRP-Kernprinzip (v1.3)
 LRP trennt Eingaben bewusst in vier Ebenen, damit LLMs robuster und reproduzierbarer arbeiten:
-1. **Context Layer** – stabile Fakten, Rolle, Rahmenbedingungen
-2. **Task Layer** – eindeutiges Ziel in einem Satz
-3. **Constraint Layer** – harte/weiche Vorgaben
-4. **Output Format** – gewünschte Struktur (z. B. JSON, Markdown, Tabelle)
+1. **Kontext-Ebene** – stabile Fakten, Rolle, Rahmenbedingungen
+2. **Aufgaben-Ebene** – eindeutiges Ziel in einem Satz
+3. **Constraint-Ebene** – harte/weiche Vorgaben
+4. **Ausgabeformat** – gewünschte Struktur (z. B. JSON, Markdown, Tabelle)
 
-**Resonance Check (neu betont):** Vor der Ausführung muss das Modell Kontext + Ziel + Constraints kurz spiegeln (Echo), nur bei Unklarheit nachfragen und danach erst ausführen.
+**Resonanz-Check (neu betont):** Vor der Ausführung muss das Modell Kontext + Ziel + Constraints kurz spiegeln (Echo), nur bei Unklarheit nachfragen und danach erst ausführen.
 
 ## Projektstatus
-- ✅ Produktiv nutzbar (Single-File HTML App)
+- ✅ Produktiv nutzbar (Einzeldatei-HTML-App)
 - ✅ Dokumentation modernisiert
 - ✅ Struktur für professionellen Open-Source-Betrieb vorbereitet
 - 🔄 Ziel-Migration: `https://github.com/IrsanAI/LRP-v1.3`
 
 ## Start in 30 Sekunden
+Du kannst das Tool direkt über die GitHub Page nutzen: https://irsanai.github.io/LRP-v1.3/
+
 1. Repository klonen.
 2. `index.html` direkt im Browser öffnen **oder** lokal per Webserver starten:
    ```bash
@@ -43,22 +45,23 @@ LRP trennt Eingaben bewusst in vier Ebenen, damit LLMs robuster und reproduzierb
 
 ## Dokumentation
 - [Projektüberblick](docs/overview.md)
-- [Features](docs/features.md)
+- [Funktionen](docs/features.md)
 - [Nutzungsleitfaden](docs/usage.md)
 - [Änderungsprotokoll](docs/changelog.md)
 - [LRP-HTML Audit & Optimierungsvorschläge](docs/lrp-html-audit.md)
 - [Erste Live-Erfahrung mit dem Protokoll](docs/first-experience.md)
-- [Professional GitHub Pages Landing](website/index.html)
-- [Professionalization Roadmap](docs/professionalization-roadmap.md)
-- [Migration Guide](MIGRATION.md)
-- [Progress-to-Target (Ist/Soll Gap-Analyse)](docs/progress-to-fazit.md)
+- [Professionelle GitHub-Pages-Landingpage](website/index.html)
+- [Professionalisierungs-Roadmap](docs/professionalization-roadmap.md)
+- [Migrationsleitfaden](MIGRATION.md)
+- [Fortschritt zum Ziel (Ist/Soll-Gap-Analyse)](docs/progress-to-fazit.md)
 - [WEG 1/WEG 2 + Probability-Modell für nächste Schritte](docs/weg1-weg2-probability-next-steps.md)
-- [Repo Validation Report (Konsistenzcheck)](docs/repo-validation-report.md)
+- [Repo-Validierungsbericht (Konsistenzcheck)](docs/repo-validation-report.md)
 - [Mehrsprachige README-Dateien (EN/ES/IT/BS/RU/ZH/FR/PT-BR/HI/JA/TR)](README.en.md)
 
-## Repositories & Links
-- **LIVE USE:**
-  - [Du kannst das Tool direkt über die GitHub Page nutzen:](https://irsanai.github.io/LRP-v1.3/)
+## Repositories & Verweise
+- **Legacy-Demo / Legacy-Account:**
+  - https://pythonlover2023.github.io/IrsanAI-LRP/
+  - https://pythonlover2023.github.io/IrsanAI-Landingpage-Logic-Factory/
 - **Aktuelles Ziel-Repository:**
   - https://github.com/IrsanAI/LRP-v1.3
 
@@ -79,8 +82,8 @@ _Stand der Prüfung: aktuell gegen den Inhalt dieses Repos validiert._
    Eine dedizierte Regression-/Snapshot-Test-Suite für Referenz-Prompts ist weiterhin nicht im Repo enthalten (es existieren aktuell keine entsprechenden Testartefakte oder Test-Runner).
    **Weiterführung:** Referenzkorpus (z. B. 20+ repräsentative Prompts) definieren, erwartete LRP-Outputs als Snapshots versionieren und in CI automatisch gegen neue Änderungen prüfen.
 
-2. **Explainability der Analyse im LRP-Core (Status: offen)**
-   Die Analyse läuft regelbasiert, aber ein sichtbarer Explainability-/Decision-Trace für Nutzer ist im UI weiterhin nicht vorhanden.
+2. **Erklärbarkeit der Analyse im LRP-Kern (Status: offen)**
+   Die Analyse läuft regelbasiert, aber ein sichtbarer Erklärbarkeits-/Entscheidungs-Trace für Nutzer ist im UI weiterhin nicht vorhanden.
    **Weiterführung:** In `index.html` einen „Warum dieses Ergebnis?“-Block ergänzen (Top-Signale + Gewichtung) und die Darstellung anhand der Referenz-Prompts gegenprüfen.
 
 3. **Architektur-Entkopplung des monolithischen Core (Status: offen)**
@@ -96,7 +99,7 @@ _Stand der Prüfung: aktuell gegen den Inhalt dieses Repos validiert._
    **Weiterführung:** Legacy-Links im Core auf das Zielrepo aktualisieren, Ziel-Pages final verifizieren und das alte Repo anschließend klar als Legacy/Archiv markieren.
 
 ### Bereits erledigt (aktuell bestätigt)
-- ✅ Dokumentationsfundament inkl. Überblick, Features, Usage, Changelog und Gap-Analyse ist vorhanden.
+- ✅ Dokumentationsfundament inkl. Überblick, Funktionen, Nutzung, Änderungsprotokoll und Gap-Analyse ist vorhanden.
 - ✅ Professionalisierungs-Roadmap und Migrationsleitfaden sind dokumentiert.
 - ✅ Mehrsprachige Landingpage (8 Sprachen) ist vorhanden.
 - ✅ GitHub-Pages-Workflow für statische Auslieferung ist eingerichtet.

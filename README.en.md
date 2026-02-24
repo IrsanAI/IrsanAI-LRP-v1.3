@@ -1,9 +1,10 @@
 # IrsanAI · LRP v1.3
 
-> 🌍 [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
+> 🌍 **Read this README in your language:**
+> [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
 
 ## Overview
-Structured prompt protocol with Context/Task/Constraints/Output Format and a mandatory resonance check before execution.
+LRP is a structured prompting protocol that separates context, task, constraints, and output format, with a mandatory resonance check before execution.
 
 ## Core Components
 1. Context Layer
@@ -17,13 +18,15 @@ Structured prompt protocol with Context/Task/Constraints/Output Format and a man
 - Execute after alignment
 
 ## Quick Start
+You can use the tool directly via GitHub Pages: https://irsanai.github.io/LRP-v1.3/
+
 ```bash
 python3 -m http.server 4173
 ```
 Open: `http://127.0.0.1:4173/index.html`
 
 ## Main Documentation
-- [German Main README](README.md)
+- [German main README](README.md)
 - [Usage](docs/usage.md)
 - [Features](docs/features.md)
 - [Roadmap](docs/professionalization-roadmap.md)

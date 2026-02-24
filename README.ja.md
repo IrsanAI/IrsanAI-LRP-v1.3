@@ -1,29 +1,32 @@
 # IrsanAI · LRP v1.3
 
-> 🌍 [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
+> 🌍 **この README をあなたの言語で読む:**
+> [🇬🇧 English](README.en.md) | [🇩🇪 Deutsch](README.md) | [🇪🇸 Español](README.es.md) | [🇮🇹 Italiano](README.it.md) | [🇧🇦 Bosanski](README.bs.md) | [🇷🇺 Русский](README.ru.md) | [🇨🇳 中文](README.zh.md) | [🇫🇷 Français](README.fr.md) | [🇧🇷 Português (BR)](README.pt-BR.md) | [🇮🇳 हिन्दी](README.hi.md) | [🇯🇵 日本語](README.ja.md) | [🇹🇷 Türkçe](README.tr.md)
 
-## Overview
-Context/Task/Constraints/Output Format を分離し、実行前にレゾナンスチェックを行う構造化プロンプト規格。
+## 概要
+LRP は、コンテキスト・タスク・制約・出力形式を分離し、実行前に必須のレゾナンスチェックを行う構造化プロンプトプロトコルです。
 
-## Core Components
-1. Context Layer
-2. Task Layer
-3. Constraint Layer
-4. Output Format
+## 主要コンポーネント
+1. コンテキスト層
+2. タスク層
+3. 制約層
+4. 出力形式
 
-## Resonance Check
-- Echo interpreted context/task/constraints
-- Ask only if ambiguity exists
-- Execute after alignment
+## レゾナンスチェック
+- 解釈したコンテキスト/タスク/制約を簡潔に復唱する
+- 曖昧な場合のみ確認する
+- 整合後に実行する
 
-## Quick Start
+## クイックスタート
+このツールは GitHub Pages から直接利用できます： https://irsanai.github.io/LRP-v1.3/
+
 ```bash
 python3 -m http.server 4173
 ```
-Open: `http://127.0.0.1:4173/index.html`
+開く： `http://127.0.0.1:4173/index.html`
 
-## Main Documentation
-- [German Main README](README.md)
-- [Usage](docs/usage.md)
-- [Features](docs/features.md)
-- [Roadmap](docs/professionalization-roadmap.md)
+## 主要ドキュメント
+- [ドイツ語メイン README](README.md)
+- [利用ガイド](docs/usage.md)
+- [機能](docs/features.md)
+- [ロードマップ](docs/professionalization-roadmap.md)
